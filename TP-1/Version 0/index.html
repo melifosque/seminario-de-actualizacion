@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Usuarios</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestor de Usuarios</h1>
+        
+        <h2>Crear Usuario</h2>
+        <form id="userForm">
+            <input type="text" id="usuario_nombre" placeholder="Nombre del usuario" required>
+            <select id="usuario_grupo" required>
+                <option value="">Seleccione un grupo</option>
+            </select>
+            <button type="submit">Crear Usuario</button>
+        </form>
+
+        <h2>Crear Grupo</h2>
+        <form id="groupForm">
+            <input type="text" id="grupo_nombre" placeholder="Nombre del grupo" required>
+            <button type="submit">Crear Grupo</button>
+        </form>
+
+        <h2>Crear Acción</h2>
+        <form id="actionForm">
+            <input type="text" id="accion_nombre" placeholder="Nombre de la acción" required>
+            <button type="submit">Crear Acción</button>
+        </form>
+
+        <h2>Asociar Acción a Grupo</h2>
+        <form id="assignForm">
+            <select id="accion_grupo_id" required>
+                <option value="">Seleccione un grupo</option>
+            </select>
+            <select id="accion_id" required>
+                <option value="">Seleccione una acción</option>
+            </select>
+            <button type="submit">Asociar acción a grupo</button>
+        </form>
+
+        <h2>Usuarios</h2>
+        <div id="userList"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchGroups();
+            fetchActions();
+            fetchUsers();
+
+            document.getElementById('userForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createUser();
+            });
+
+            document.getElementById('groupForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createGroup();
+            });
+
+            document.getElementById('actionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createAction();
+            });
+
+            document.getElementById('assignForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                assignActionToGroup();
+            });
+        });
+
+        function fetchGroups() {
+            fetch('api.php?action=get_groups')
+                .then(response => response.json())
+                .then(data => {
+                    let grupoSelect = document.getElementById('usuario_grupo');
+                    let accionGrupoSelect = document.getElementById('accion_grupo_id');
+                    data.forEach(grupo => {
+                        let option = document.createElement('option');
+                        option.value = grupo.id;
+                        option.text = grupo.nombre;
+                        grupoSelect.add(option);
+                        accionGrupoSelect.add(option.cloneNode(true));
+                    });
+                });
+        }
+
+        function fetchActions() {
+            fetch('api.php?action=get_actions')
+                .then(response => response.json())
+                .then(data => {
+                    let accionSelect = document.getElementById('accion_id');
+                    data.forEach(accion => {
+                        let option = document.createElement('option');
+                        option.value = accion.id;
+                        option.text = accion.nombre;
+                        accionSelect.add(option);
+                    });
+                });
+        }
+
+        function fetchUsers() {
+            fetch('api.php?action=get_groups_with_actions_and_users')
+                .then(response => response.json())
+                .then(data => {
+                    let userList = document.getElementById('userList');
+                    userList.innerHTML = '';
+                    data.forEach(group => {
+                        group.usuarios.forEach(user => {
+                            let div = document.createElement('div');
+                            div.textContent = `Nombre: ${user.nombre}, Grupo: ${group.nombre_grupo}, Acción: ${group.acciones.map(a => a.nombre).join(', ')}`;
+                            userList.appendChild(div);
+                        });
+                    });
+                })
+                .catch(error => console.error('Error al obtener usuarios:', error));
+        }
+        
+
+        function createUser() {
+            let nombre = document.getElementById('usuario_nombre').value;
+            let grupo_id = document.getElementById('usuario_grupo').value;
+            fetch('api.php?action=create_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre: nombre, grupo_id: grupo_id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.status_message);
+                fetchUsers();
+            });
+        }
+
+        function createGroup() {
+            let nombre = document.getElementById('grupo_nombre').value;
+            fetch('api.php?action=create_group', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre: nombre })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.status_message);
+                fetchGroups();
+            });
+        }
+
+        function createAction() {
+            let nombre = document.getElementById('accion_nombre').value;
+            fetch('api.php?action=create_action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre: nombre })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.status_message);
+                fetchActions();
+            });
+        }
+
+        function assignActionToGroup() {
+            let grupo_id = document.getElementById('accion_grupo_id').value;
+            let accion_id = document.getElementById('accion_id').value;
+            fetch('api.php?action=assign_action_to_group', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ grupo_id: grupo_id, accion_id: accion_id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.status_message);
+            });
+        }
+    </script>
+</body>
+</html>

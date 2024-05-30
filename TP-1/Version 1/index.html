@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de Usuarios, Grupos y Acciones API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        h1, h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f4f4f4;
+        }
+        
+        form {
+            width: 80%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+        
+        input, select, button {
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 1em;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gestor de Usuarios, Grupos y Acciones API</h1>
+
+    <table id="usuariosTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Grupo ID</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los datos se cargarán aquí -->
+        </tbody>
+    </table>
+
+    <h2>Crear Usuario</h2>
+    <form id="crearUsuarioForm">
+        <label for="nombreUsuario">Nombre:</label>
+        <input type="text" id="nombreUsuario" required>
+        <label for="grupoIdUsuario">ID Grupo:</label>
+        <input type="text" id="grupoIdUsuario" required>
+        <button type="submit">Crear</button>
+    </form>
+    
+    <h2>Asociar Grupos a Usuario</h2>
+    <form id="asociarGruposUsuarioForm">
+        <label for="idUsuarioAsociar">Selecciona un Usuario:</label>
+        <select id="idUsuarioAsociar" required>
+            <option value="">Selecciona un usuario...</option>
+        </select>
+        <label for="grupoIdsAsociar">Selecciona Grupos:</label>
+        <select id="grupoIdsAsociar" multiple required>
+        </select>
+        <button type="submit">Asociar</button>
+    </form>
+
+    <h2>Asociar Acciones a Grupos</h2>
+    <form id="asociarAccionesGruposForm">
+        <label for="grupoIdAsociarAcciones">Selecciona un Grupo:</label>
+        <select id="grupoIdAsociarAcciones" required>
+            <option value="">Selecciona un grupo...</option>
+        </select>
+        <label for="accionIdsAsociar">Selecciona Acciones:</label>
+        <select id="accionIdsAsociar" multiple required>
+        </select>
+        <button type="submit">Asociar</button>
+    </form>
+
+    <h2>Crear Grupo</h2>
+    <form id="crearGrupoForm">
+        <label for="nombreGrupo">Nombre Grupo:</label>
+        <input type="text" id="nombreGrupo" required>
+        <button type="submit">Crear</button>
+    </form>
+
+    <h2>Eliminar Grupo</h2>
+    <form id="eliminarGrupoForm">
+        <label for="idGrupoDelete">ID Grupo:</label>
+        <input type="text" id="idGrupoDelete" required>
+        <button type="submit">Eliminar</button>
+    </form>
+
+    <h2>Crear Acción</h2>
+    <form id="crearAccionForm">
+        <label for="nombreAccion">Nombre Acción:</label>
+        <input type="text" id="nombreAccion" required>
+        <button type="submit">Crear</button>
+    </form>
+
+    <h2>Eliminar Acción</h2>
+    <form id="eliminarAccionForm">
+        <label for="idAccionDelete">ID Acción:</label>
+        <input type="text" id="idAccionDelete" required>
+        <button type="submit">Eliminar</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
