@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión y Registro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css">
+</head>
+<body>
+    <div class="container">
+        <div id="landing-page" class="landing-page">
+            <div id="message-container" class="message" style="display: none;"></div>
+
+            <form id="login-form" class="auth-form" action="Login/login.php" method="POST">
+                <h2>Iniciar Sesión</h2>
+                <label for="username">Usuario:</label><br>
+                <input type="text" id="username" name="username" required><br>
+                <label for="password">Contraseña:</label><br>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit">Iniciar Sesión</button>
+                <br><br>
+                <p>No tienes cuenta? <a href="#" id="show-register-form">Regístrate aquí</a></p>
+            </form>
+
+            <form id="register-form" class="auth-form" style="display: none;" action="Login/register.php" method="POST">
+                <h2>Registrarse</h2>
+                <label for="new-username">Usuario:</label><br>
+                <input type="text" id="new-username" name="new-username" required><br>
+                <label for="new-password">Contraseña:</label><br>
+                <input type="password" id="new-password" name="new-password" required><br>
+                <label for="full-name">Nombre Completo:</label><br>
+                <input type="text" id="full-name" name="full-name" required><br><br>
+                <button type="submit">Registrarse</button>
+                <br><br>
+                <p>Ya tienes cuenta? <a href="#" id="show-login-form">Inicia sesión aquí</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    background: #e02cb3;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+}
+
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.auth-form {
+    max-width: 400px;
+    margin: auto;
+}
+
+.auth-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="password"],
+.auth-form input[type="email"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.auth-form button {
+    background: #c834db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.auth-form button:hover {
+    background: #b02eab;
+}
+
+.auth-form p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.auth-form a {
+    color: #c834db;
+    text-decoration: none;
+}
+
+.auth-form a:hover {
+    text-decoration: underline;
+}
+
+.message {
+    background: #e74c3c;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+    display: none;
+}
+
+.message.success {
+    background: #27ae60;
+}
+
+.message.error {
+    background: #e74c3c;
+}
+
+
+.header_toggle {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.header_title {
+    margin: 0;
+}
+
+/* Navigation */
+.l-navbar {
+    width: 250px;
+    height: 100vh;
+    background: #e710ae;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: 0.5s;
+}
+
+.l-navbar.show {
+    left: 0;
+}
+
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.nav_logo {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.nav_logo-icon {
+    margin-right: 10px;
+}
+
+.nav_list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px; /* Añadir margen superior para separación */
+}
+
+.nav_link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 20px;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.nav_link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-bottom-color: #fff;
+}
+
+.nav_icon {
+    margin-right: 10px;
+}
+
+.nav_name {
+    font-size: 18px;
+}
+
+/* Container Wrapper */
+.container-wrapper {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.add-contact,
+.search-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background: #c834db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #c834db;
+}
+
+/* Message Container */
+.message {
+    background: #e74c3c;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+    display: none;
+}
+/* Estilos generales del modal */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Estilos específicos del contenido del modal */
+.popup-content {
+    max-width: 400px;
+    margin: auto;
+}
+
+.popup-content label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.popup-content input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.popup-content button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background-color: #45a049;
+}
+
+.popup-message {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    text-align: center;
+}
+
+.popup-message.show {
+    display: block;
+}
+
+#popup-close {
+    margin-top: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

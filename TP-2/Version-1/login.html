@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Una agenda de contactos para gestionar tus contactos de manera efectiva.">
+    <title>Agenda de Contactos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+        <h1 class="header_title">Agenda de Contactos</h1>
+    </header>
+
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div> 
+                <a href="#" class="nav_logo">
+                    <i class='bx bx-layer nav_logo-icon'></i> 
+                    <span class="nav_logo-name">Agenda</span> 
+                </a>
+                <div class="nav_list"> 
+                    <a href="#" class="nav_link" id="agregar_contacto_link">
+                        <i class='bx bx-user nav_icon'></i> 
+                        <span class="nav_name">Agregar contactos</span> 
+                    </a> 
+                    <a href="#" class="nav_link" id="buscar_contacto_link">
+                        <i class='bx bx-grid-alt nav_icon'></i> 
+                        <span class="nav_name">Buscar contactos</span> 
+                    </a>
+                </div>
+            </div> 
+            <a href="#" class="nav_link"> 
+                <i class='bx bx-log-out nav_icon'></i> 
+                <span class="nav_name">Salir</span> 
+            </a>
+        </nav>
+    </div>
+
+    <div class="container-wrapper">
+        <div class="add-contact" id="add-contact-form">
+            <form id="contact-form">
+                <input type="hidden" id="contact-id" name="id">
+                <label for="name">Nombre:</label><br>
+                <input name="name" id="name" type="text" autocomplete="given-name" required><br>
+                <label for="surname">Apellido:</label><br>
+                <input type="text" id="surname" name="surname" autocomplete="family-name" required><br>
+                <label for="email">Email:</label><br>
+                <input name="email" id="email" type="email" autocomplete="email" required><br>
+                <label for="number">Número de Contacto:</label><br>
+                <input type="text" id="number" name="number" required><br><br>
+                <button type="submit">Agregar Contacto</button>
+            </form>
+        </div>
+    
+        <div class="search-container" id="search-container" style="display: none;">
+            <h2>Buscar Contactos</h2>
+            <input type="text" id="search-input" placeholder="Buscar por nombre...">
+            <button type="button" id="search-button">Buscar</button>
+            <h2>Lista de Contactos</h2>
+            <ul id="contact-list">
+            </ul>
+        </div>
+        
+        <div id="editPopup" class="popup" style="display: none;">
+            <form id="editForm" class="popup-content">
+                <label for="editName">Nombre:</label>
+                <input type="text" id="editName" name="name" required>
+                <br>
+                <label for="editSurname">Apellido:</label>
+                <input type="text" id="editSurname" name="surname" required>
+                <br>
+                <label for="editEmail">Email:</label>
+                <input type="email" id="editEmail" name="email" required>
+                <br>
+                <label for="editNumber">Número:</label>
+                <input type="text" id="editNumber" name="number" required>
+                <br>
+                <button type="submit" id="editSubmitBtn">Guardar cambios</button>
+            </form>
+        </div>
+        
+        <div id="message-container" class="message"></div>
+    </div>
+    <div class="popup-message" id="message-container" style="display: none;"></div>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>
