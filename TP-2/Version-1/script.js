@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const navBar = document.getElementById('nav-bar');
     const agregarContactoLink = document.getElementById('agregar_contacto_link');
     const buscarContactoLink = document.getElementById('buscar_contacto_link');
+    const logoutLink = document.getElementById('logout_link');
 
     const addContactForm = document.getElementById('add-contact-form');
     const searchContainer = document.getElementById('search-container');
@@ -20,11 +21,45 @@ document.addEventListener("DOMContentLoaded", function() {
     agregarContactoLink.addEventListener('click', () => {
         addContactForm.style.display = 'block';
         searchContainer.style.display = 'none';
+
+
     });
 
     buscarContactoLink.addEventListener('click', () => {
         addContactForm.style.display = 'none';
         searchContainer.style.display = 'block';
+    });
+
+    logoutLink.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
+
+        fetch('Login/logout.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ logout: true })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Convertir la respuesta a JSON
+        })
+        .then(data => {
+            // Manejar la respuesta JSON
+            if (data.status === 'success') {
+                console.log('Exito al cerrar sesion');
+                window.location.href = 'index.html';
+            } else {
+                console.error('Error en el servidor:', data.message);
+    
+            }
+        })
+        .catch(error => {
+            console.error('Error al cerrar sesion:', error);
+    
+        });
     });
 
 
@@ -93,38 +128,36 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => console.error('Error al obtener los contactos', error));
 
     function showContactList() {
-    // Ocultar otros contenedores si es necesario
-    searchContainer.style.display = 'none';
-    editPopup.style.display = 'none';
-    messageContainer.innerHTML = ''; // Limpiar mensajes anteriores si los hubiera
+        searchContainer.style.display = 'none';
+        editPopup.style.display = 'none';
+        messageContainer.innerHTML = ''; 
 
-    // Mostrar el contenedor de la lista de contactos
-    contactListContainer.style.display = 'block';
+        // Mostrar el contenedor de la lista de contactos
+        contactListContainer.style.display = 'block';
 
-    // Realizar la solicitud para obtener los contactos desde el servidor
-    fetch('include/read.php')
-        .then(response => response.json())
-        .then(contactos => {
-            // Limpiar la lista de contactos antes de agregar los nuevos
-            contactList.innerHTML = '';
+        fetch('include/read.php')
+            .then(response => response.json())
+            .then(contactos => {
+        
+                contactList.innerHTML = '';
 
-            // Iterar sobre cada contacto y crear un elemento <li> para cada uno
-            contactos.forEach(contact => {
-                const li = document.createElement('li');
-                li.innerHTML = `${contact.name} ${contact.surname} (${contact.email}) - Números: ${contact.numbers} 
-                    <button class="edit-button" data-id="${contact.id}">Editar</button> 
-                    <button class="delete-button" data-id="${contact.id}">Eliminar</button>`;
-                contactList.appendChild(li);
+                // Iterar sobre cada contacto y crear un elemento <li> para cada uno
+                contactos.forEach(contact => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${contact.name} ${contact.surname} (${contact.email}) - Números: ${contact.numbers} 
+                        <button class="edit-button" data-id="${contact.id}">Editar</button> 
+                        <button class="delete-button" data-id="${contact.id}">Eliminar</button>`;
+                    contactList.appendChild(li);
+                });
+
+                // Llamar a una función para agregar listeners a los botones de editar y eliminar
+                addEditAndDeleteListeners(contactos);
+            })
+            .catch(error => {
+                console.error('Error al obtener los contactos', error);
+                messageContainer.innerHTML = 'Error al cargar la lista de contactos.';
             });
-
-            // Llamar a una función para agregar listeners a los botones de editar y eliminar
-            addEditAndDeleteListeners(contactos);
-        })
-        .catch(error => {
-            console.error('Error al obtener los contactos', error);
-            messageContainer.innerHTML = 'Error al cargar la lista de contactos.';
-        });
-}
+    }
 
     function addEditAndDeleteListeners(data) {
         document.querySelectorAll('.edit-button').forEach(button => {

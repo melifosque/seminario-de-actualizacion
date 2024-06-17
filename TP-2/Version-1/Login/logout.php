@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$_SESSION = array();
+$_SESSION = array(); // Vaciar todas las variables de sesión
+session_destroy();   // Destruir la sesión
 
-session_destroy();
-
-header("Location: index.html");
+header('Content-Type: application/json');
+echo json_encode(array('status' => 'success'));
 exit;
 ?>

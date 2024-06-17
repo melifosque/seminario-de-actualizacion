@@ -15,9 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
+        if (password_verify($password, $row['user_password'])) {
 
-            $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['username'] = $row['user_name'];
             echo json_encode(array('status' => 'success', 'message' => 'Inicio de sesión exitoso.'));
         } else {
@@ -29,5 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt->close();
     $conn->close();
+}else {
+    echo json_encode(array('status' => 'error', 'message' => 'en login de solicitud no permitido.'));
 }
 ?>

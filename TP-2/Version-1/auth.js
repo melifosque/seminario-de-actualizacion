@@ -19,18 +19,13 @@ document.addEventListener("DOMContentLoaded", function() {
         clearMessages();
     });
 
-    // Escuchar el envío del formulario de inicio de sesión
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const formData = new FormData(loginForm);
 
         fetch('Login/login.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
+            body: formData
         })
         .then(response => {
             if (!response.ok) {
@@ -39,10 +34,14 @@ document.addEventListener("DOMContentLoaded", function() {
             return response.json();
         })
         .then(data => {
-            showMessage(data.message, 'success');
-            setTimeout(() => {
-                window.location.replace('index.html'); // Redirigir al usuario a la página principal
-            }, 2000); // Redireccionar después de 2 segundos
+            if (data.status === 'success') {
+                showMessage(data.message, 'success');
+                setTimeout(() => {
+                    window.location.replace('login.html');
+                }, 500);
+            } else {
+                showMessage(data.message, 'error');
+            }
         })
         .catch(error => {
             console.error('Error en el inicio de sesión:', error);
@@ -50,28 +49,30 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Escuchar el envío del formulario de registro
     registerForm.addEventListener('submit', function(e) {
-   
-            e.preventDefault(); // Evitar que el formulario se envíe automáticamente
+        e.preventDefault();
+        
+        const formData = new FormData(registerForm);
     
-            const formData = new FormData(registerForm);
-    
-            fetch('Login/register.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
+        fetch('Login/register.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
                 showMessage(data.message, 'success');
-                registerForm.reset(); // Limpiar formulario después del registro exitoso
-            })
-            .catch(error => {
-                console.error('Error en el registro:', error);
-                showMessage('Error al registrar usuario', 'error');
-            });
+                registerForm.reset(); 
+            } else {
+                showMessage(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error en el registro:', error);
+            showMessage('Error al registrar usuario: ' + error.message, 'error');
         });
-
+    });
+    
     function showMessage(message, type) {
         messageContainer.innerHTML = message;
         messageContainer.style.display = 'block';
