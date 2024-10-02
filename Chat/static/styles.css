@@ -139,12 +139,17 @@ button:hover {
 .emoji {
     cursor: pointer;
     padding: 5px;
-    font-size: 24px; /* Tamaño de los emojis */
-}
-.emoji:hover {
-    background-color: #e0e0e0; /* Resaltar emoji al pasar el mouse */
+    font-size: 24px;
+    display: inline-flex; /* Asegura que el emoji y la imagen estén alineados */
+    align-items: center; /* Centra verticalmente */
+    padding: 10px; /* Añade espacio alrededor del span para aumentar el área clickeable */
+    border-radius: 5px; /* Opcional: bordes redondeados */
+    transition: background-color 0.3s; /* Efecto de transición para el fondo */
 }
 
+.emoji:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Cambia el fondo al pasar el mouse */
+}
 /* Adaptación para dispositivos móviles */
 @media (max-width: 600px) {
     input[type="text"],
