@@ -1,0 +1,175 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e9ecef;
+    height: 100vh;
+    color: #495057;
+}
+
+#login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+#chat {
+    display: none;
+    width: 90%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    margin-top: 30px;
+    position: relative;
+    flex-grow: 1;
+}
+
+h1 {
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #007bff;
+}
+
+#messages {
+    list-style: none;
+    padding: 0;
+    height: 70vh;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+li {
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-radius: 15px;
+    position: relative;
+    max-width: 70%;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+li.sender {
+    background-color: #007bff;
+    color: #ffffff;
+    margin-left: auto;
+    border-radius: 15px 15px 0 15px;
+}
+
+li.receiver {
+    background-color: #f1f1f1;
+    color: #333;
+    margin-right: auto;
+    border-radius: 15px 15px 15px 0;
+}
+
+/* Campos de entrada */
+input[type="text"] {
+    width: 300px; /* Aumentar el tamaño del campo de entrada */
+    padding: 15px; /* Aumentar el padding */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px; /* Espacio inferior para separar */
+    transition: border 0.3s;
+    font-size: 1rem; /* Aumentar el tamaño de la fuente */
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+}
+
+/* Campo para enviar mensajes */
+#message {
+    width: calc(100% - 80px); /* Ajustar para que ocupe más espacio */
+    padding: 15px; /* Aumentar el padding */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px;
+    transition: border 0.3s;
+    font-size: 1rem; /* Aumentar el tamaño de la fuente */
+}
+
+#message:focus {
+    border-color: #007bff;
+}
+
+button {
+    padding: 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+#emoji-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 28px;
+    padding: 0 10px;
+}
+
+#emoji-picker {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ccc;
+    background: white;
+    position: absolute; /* Para mostrarlo sobre otros elementos */
+    z-index: 1000; /* Para asegurarte que se muestre sobre otros elementos */
+}
+.emoji {
+    cursor: pointer;
+    padding: 5px;
+    font-size: 24px; /* Tamaño de los emojis */
+}
+.emoji:hover {
+    background-color: #e0e0e0; /* Resaltar emoji al pasar el mouse */
+}
+
+/* Adaptación para dispositivos móviles */
+@media (max-width: 600px) {
+    input[type="text"],
+    #message {
+        width: calc(100% - 50px); /* Ajustar el tamaño en dispositivos móviles */
+        font-size: 1rem; /* Aumentar el tamaño de la fuente */
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
