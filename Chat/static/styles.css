@@ -1,0 +1,246 @@
+* { 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e9ecef;
+    height: 100vh;
+    color: #495057;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    margin-top: 20px;
+}
+
+/* Formularios */
+#register, #user-validation-form, #recover-method-selection, 
+#sms-verification-form, #email-verification-form, 
+#security-questions-form, #reset-password-form {
+    display: none; /* Ocultar todos los formularios inicialmente */
+}
+
+.hidden {
+    display: none; /* Oculta elementos con esta clase */
+}
+
+/* Etiquetas */
+label {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Campos de entrada */
+input[type="text"], input[type="password"], input[type="email"] {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: border 0.3s;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+    border-color: #007bff;
+}
+
+/* Contenedor de chat */
+#chat {
+    display: none;
+    width: 90%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    margin-top: 30px;
+    position: relative;
+    flex-grow: 1;
+}
+
+h1 {
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+#messages {
+    list-style: none;
+    padding: 0;
+    height: 70vh;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    animation: fadeIn 0.5s ease-in-out;
+    scroll-behavior: smooth;
+}
+
+li {
+    margin: 10px 0;
+    padding: 12px 15px;
+    border-radius: 15px;
+    max-width: 70%;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+li.sender {
+    background-color: #007bff;
+    color: #ffffff;
+    margin-left: auto;
+    border-radius: 15px 15px 0 15px;
+}
+
+li.receiver {
+    background-color: #f1f1f1;
+    color: #333;
+    margin-right: auto;
+    border-radius: 15px 0 15px 15px;
+}
+
+#message {
+    width: calc(100% - 80px);
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px;
+    transition: border 0.3s;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between; /* Espacio entre botones */
+    margin: 20px 0; /* Espacio superior e inferior */
+}
+
+.small-title {
+    font-size: 1.5rem; 
+    margin-bottom: 15px; 
+    color: #007bff;
+}
+
+
+.action-buttons .btn {
+    padding: 8px 15px; 
+    font-size: 14px; 
+}
+
+.btn-outline-danger {
+    background-color: #dc3545; 
+    color: white; 
+    border: none; 
+}
+
+.btn-outline-danger:hover {
+    background-color: #c82333; /* Color más oscuro al pasar el mouse */
+}
+
+/* Estilos para el botón de volver atrás */
+.btn-secondary {
+    background-color: #6c757d; /* Color de fondo gris */
+    color: white; /* Texto blanco */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Color más oscuro al pasar el mouse */
+}
+
+#message:focus {
+    border-color: #007bff;
+}
+
+button {
+    padding: 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+#emoji-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 28px;
+    padding: 0 10px;
+}
+
+#emoji-picker {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ccc;
+    background: white;
+    position: absolute;
+    z-index: 1000;
+    padding: 10px;
+    display: none; /* Oculto inicialmente */
+}
+
+.emoji {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 24px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.emoji:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+    .action-buttons {
+        flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+    }
+
+    .action-buttons .btn {
+        margin: 5px 0; /* Espacio vertical entre botones */
+    }
+    input[type="text"], #message {
+        width: calc(100% - 50px);
+        font-size: 1rem;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página no encontrada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 50px;
+            color: #dc3545;
+        }
+        p {
+            font-size: 20px;
+            margin: 20px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .image-container {
+            margin: 20px 0;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404 - Not found</h1>
+        <div class="image-container">
+            <img src="https://img.lagaceta.com.ar/fotos/notas/2019/10/12/a-la-b-equipo-river-futsal-perdio-categoria-como-ocurrio-2011-como-primer-equipo-821224-123100.jpg" alt="Imagen divertida o ilustrativa" />
+        </div>
+        <p>Lo sentimos, la página que estás buscando no existe, se fue a la B.</p>
+        <p>Pero no te preocupes, puedes volver al <a href="{{ url_for('index') }}">inicio</a>.</p>
+    </div>
+</body>
+</html>

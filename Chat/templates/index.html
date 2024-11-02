@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <title>Chat</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+</head>
+<body>
+    
+    <div id="register">
+        <h1>Registro</h1>
+        <label for="reg_username">Usuario:</label>
+        <input type="text" id="reg_username" placeholder="Ingrese su nombre de usuario">
+        
+        <label for="reg_email">Email:</label>
+        <input type="email" id="reg_email" placeholder="Ingrese su email">
+        
+        <label for="reg_password">Contraseña:</label>
+        <input type="password" id="reg_password" placeholder="Ingrese su contraseña">
+        
+        <label >Celular:</label>
+        <input type="text" name="phone_number" placeholder="Número de teléfono">
+
+        <label for="security_answer1">¿Cuál es el nombre de su primera mascota?</label>
+        <input type="text" id="security_answer1" required>
+        
+        <label for="security_answer2">¿Dónde nació?</label>
+        <input type="text" id="security_answer2" required>
+        
+        <label for="security_answer3">¿Cuál es su color favorito?</label>
+        <input type="text" id="security_answer3" required>
+        
+        <label for="security_answer4">¿Cuál es el nombre de su primer profesor?</label>
+        <input type="text" id="security_answer4" required>
+        
+        <label for="security_answer5">¿Cuál es su película favorita?</label>
+        <input type="text" id="security_answer5" required>
+
+        <div id="captcha-container">
+            <label for="captcha_response">CAPTCHA:</label>
+            <div>
+                <img id="captcha-img" src="/captcha" alt="CAPTCHA">
+                <button id="refresh-captcha">🔄</button>
+            </div>
+            <input type="text" id="captcha_response" placeholder="Ingrese el texto del CAPTCHA" required>
+        </div>
+
+        <button id="register-btn">Registrarse</button>
+        <button class="back-btn">Volver atrás</button>
+        <p>¿Ya tienes cuenta? <a href="#" id="go-login">Inicia sesión</a></p>
+    </div>
+
+    <div id="login">
+        <h1>Iniciar Sesión</h1>
+        <label for="login_username">Usuario o Email:</label>
+        <input type="text" id="login_username" placeholder="Ingrese su usuario o email">
+        
+        <label for="login_password">Contraseña:</label>
+        <input type="password" id="login_password" placeholder="Ingrese su contraseña">
+
+        <p>¿No tienes cuenta? <a href="#" id="go-register">Regístrate aquí</a></p>
+        <p><a href="#" id="forgot-password">¿Olvidaste tu contraseña?</a></p>
+        
+        <button id="login-btn">Iniciar Sesión</button>
+    </div>
+
+    <div id="user-validation-form" style="display: none;">
+        <h2>Recuperar Contraseña</h2>
+        <p>Ingrese su nombre de usuario o correo electrónico registrado:</p>
+        <input type="text" id="identifier" placeholder="Usuario o correo electrónico" required>
+        
+        <div id="captcha-container2">
+            <label for="captcha_response2">CAPTCHA:</label>
+            <div>
+                <img id="captcha-img-recover" src="/captcha" alt="CAPTCHA">
+                <button id="refresh-captcha-recover" type="button">🔄</button>
+            </div>
+            <input type="text" id="captcha_response2" placeholder="Ingrese el texto del CAPTCHA" required>
+        </div>
+    
+        <button id="validate-user-btn">Continuar</button>
+        <button class="back-btn">Volver atrás</button>
+    </div>
+
+    <div id="recover-method-selection" style="display: none;">
+        <h2>Recuperar Contraseña</h2>
+        <p>Selecciona el método para recuperar tu contraseña:</p>
+        
+        <label>
+            <input type="radio" name="recover_method" value="sms"> Recuperar por código SMS
+        </label><br>
+        <label>
+            <input type="radio" name="recover_method" value="email"> Recuperar por correo electrónico
+        </label><br>
+        <label>
+            <input type="radio" name="recover_method" value="security_questions"> Recuperar por preguntas de seguridad
+        </label><br>
+        <button id="continue-recovery">Continuar</button>
+        <button class="back-btn">Volver atrás</button> 
+    </div>
+
+    <!-- Formulario para el código SMS -->
+    <div id="sms-verification-form" style="display: none;">
+        <h2>Verificación por SMS</h2>
+        <label for="sms_code">Código SMS:</label>
+        <input type="text" id="sms_code" placeholder="Ingrese el código" required>
+        <button id="verify-sms-btn">Verificar</button>
+        <button class="back-btn">Volver atrás</button>
+    </div>
+    
+    <!-- Formulario para el correo electrónico -->
+    <div id="email-verification-form" style="display: none;">
+        <h2>Verificación por Correo</h2>
+        <label for="verification_code_email">Código de Verificación:</label>
+        <input type="text" id="verification_code_email" placeholder="Ingrese el código enviado por correo" required>
+        <button id="verify-email-btn">Verificar</button>
+        <button class="back-btn" style="display: none;">Volver atrás</button>
+    </div>
+    
+    <!-- Formulario para preguntas de seguridad -->
+    <div id="security-questions-form" style="display: none;">
+        <h2>Preguntas de Seguridad</h2>
+        <!-- Preguntas dinámicas o estáticas dependiendo de tu implementación -->
+        <label for="answer-0">¿Cuál es el nombre de su primera mascota?:</label>
+        <input type="text" id="answer-0" placeholder="Respuesta" required><br>
+    
+        <label for="answer-1">¿Dónde nació?:</label>
+        <input type="text" id="answer-1" placeholder="Respuesta" required><br>
+    
+        <label for="answer-2">¿Cuál es su color favorito?</label>
+        <input type="text" id="answer-2" placeholder="Respuesta" required><br>
+
+        <label for="answer-3">¿Cuál es el nombre de su primer profesor?</label>
+        <input type="text" id="answer-3" placeholder="Respuesta" required><br>
+
+        <label for="answer-4">¿Cuál es su película favorita?</label>
+        <input type="text" id="answer-4" placeholder="Respuesta" required><br>
+    
+        <button id="verify-security-btn">Verificar</button>
+        <button class="back-btn">Volver atrás</button>
+    </div>
+    
+    <!-- Restablecer contraseña -->
+    <div id="reset-password-form" style="display: none;">
+        <h2>Restablecer Contraseña</h2>
+        <input type="password" id="new-password" placeholder="Nueva contraseña" required>
+        <button id="reset-password-btn">Actualizar Contraseña</button>
+        <button class="back-btn">Volver atrás</button> 
+    </div>
+
+    <div id="rooms" class="container" style="display: none;">
+        <div class="header">
+            <h1>Unirse a la sala</h1>
+        </div>
+        
+        <div class="action-buttons">
+            <button id="logout-btn" class="btn btn-outline-danger">Cerrar sesión</button>
+        </div>
+        
+        <label for="room">Nombre de la sala:</label>
+        <input type="text" id="room" placeholder="Ingrese la sala" />
+        <button id="createRoom" class="btn btn-primary">Crear Sala</button>
+        <button id="join" class="btn btn-secondary">Unirse</button>
+        
+        <h2>Salas de Chat Disponibles</h2>
+        <ul id="room-list" class="list-group"></ul>
+    </div>
+    
+    <div id="chat" class="container" style="display: none;">
+        <div class="header">
+            <h1>Chat Encriptado</h1>
+        </div>
+        
+        <div class="action-buttons">
+            <button id="logout-btn-chat" class="btn btn-outline-danger">Cerrar sesión</button>
+            <button id="back-btn-chat" class="btn btn-secondary">Volver atrás</button>
+        </div>
+    
+        <ul id="messages"></ul>
+        <div style="display: flex; align-items: center;">
+            <button id="emoji-button">😊</button>
+            <div id="emoji-picker" style="display: none;">
+                <span class="emoji" data-emoji="😊">😊</span>
+                <span class="emoji" data-emoji="😂">😂</span>
+                <span class="emoji" data-emoji="❤️">❤️</span>
+                <span class="emoji" data-emoji="😍">😍</span>
+                <span class="emoji" data-emoji="😎">😎</span>
+                <span class="emoji" data-emoji="😢">😢</span>
+                <span class="emoji" data-emoji="👍">👍</span>
+                <span class="emoji" data-emoji="🔥">🔥</span>
+                <span class="emoji" data-emoji="🎉">🎉</span>
+                <span class="emoji" data-emoji="😜">😜</span>
+                <span class="emoji" data-emoji="🤔">🤔</span>
+                <span class="emoji" data-emoji="👏">👏</span>
+                <span class="emoji" data-emoji="💪">💪</span>
+                <span class="emoji" data-emoji="🙌">🙌</span>
+                <span class="emoji" data-emoji="😘">😘</span>
+                <span class="emoji" data-emoji="😱">😱</span>
+                <span class="emoji" data-emoji="🎶">🎶</span>
+                <span class="emoji" data-emoji="💥">💥</span>
+                <span class="emoji" data-emoji="🍆">🍆</span>
+                <span class="emoji" data-emoji="💦">💦</span>
+                <span class="emoji" data-emoji="🧉">🧉</span>
+                <span class="emoji" data-emoji="⚽">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Escudo_del_Club_Atlético_Boca_Juniors.svg/289px-Escudo_del_Club_Atlético_Boca_Juniors.svg.png" style="width: 24px; height: 24px; vertical-align: middle;">
+                </span>
+            </div>
+            <input id="message" placeholder="Escribe un mensaje">
+            <button id="send">Enviar</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='auth.js') }}"></script>
+    <script src="{{ url_for('static', filename='chat.js') }}"></script>
+</body>
+</html>
